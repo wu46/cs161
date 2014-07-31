@@ -5,8 +5,9 @@ public class CountInversion{
     	int n = 100000;
     	int[] arr_unsorted = new int[n];
         int i = 0;
+
+        // Read integers from file
     	Scanner sc = null;
-    	/*
     	try {
     		sc = new Scanner(new File("IntegerArray.txt"));
     	} catch (FileNotFoundException e) {
@@ -16,40 +17,32 @@ public class CountInversion{
         while (sc !=null && sc.hasNextInt()) {
         	arr_unsorted[i++] = sc.nextInt();
         }
-        System.out.format("last int is %d\n", arr_unsorted[n-1]);
-        */
         
-        //System.out.println("sorted array: ");
-        //System.out.println(Arrays.toString(arr_sorted));
-        
-        int[] v = new int[10];
-        System.out.println(Arrays.toString(v));
-        testArray(Arrays.copyOfRange(v, 0, 5));
-        System.out.println(Arrays.toString(v));
+        long nInvs = sortAndCount(arr_unsorted);
+        System.out.format("%d inversions counted \n", nInvs);
     }
     
-    private static void testArray(int[] v) {
-    	for (int i = 0; i < v.length; i++) {
-    		v[i] = i*3;
-    	}
-    }
-    
-    private static int sortAndCount(int[] v) {
+    private static long sortAndCount(int[] v) {
     	int n = v.length;
     	int mid = n/2;
+        // base case: 1 or 0 elements
     	if (n <= 1) {
     		return 0;
     	}
+
+        // create copies of left and right arrays
     	int[] left = Arrays.copyOfRange(v,0,mid);
     	int[] right = Arrays.copyOfRange(v,mid,n);
-    	return sortAndCount(left) + sortAndCount(right) + mergeAndCountSplit(left,right);
+
+        // recursive calls
+    	return sortAndCount(left) + sortAndCount(right) + mergeAndCountSplit(left,right, v);
     }
-    private static int mergeAndCountSplit(int[] v1, int[] v2) {
+    private static long mergeAndCountSplit(int[] v1, int[] v2, int[] out) {
     	int nSplit = 0;
         int i1 = 0; int i2 = 0; int iout = 0;
         int len1 = v1.length; int len2 = v2.length;
-        int[] out = new int[len1+len2];
         int[] v=v1; int i=0;
+
         while(i1 < len1 && i2 < len2) {
         	if (v1[i1] < v2[i2]) {
         		out[iout] = v1[i1];
@@ -57,6 +50,7 @@ public class CountInversion{
         	} else {
         		out[iout] = v2[i2];
         		iout++; i2++;
+                nSplit += (len1 - i1);
         	}
         }
         
@@ -70,7 +64,7 @@ public class CountInversion{
         	out[iout] = v[i];
         	iout++; i++;
         }
-        return -1; 
+        return nSplit;
     }
 
 }
