@@ -1,14 +1,26 @@
+package sort;
 import java.util.Arrays;
 
 public class MergeSort{
+    private int[] v;
+
+    public void sort(int[] arr) {
+        v = arr;
+        mergeSort(v);
+    }
+    public void display(){
+        System.out.println(Arrays.toString(v));
+    }
+    /*
     public static void main(String[] args) {
         int[] arr_unsorted = {};
         int[] arr_sorted = mergeSort(arr_unsorted);
         System.out.println("sorted array: ");
         System.out.println(Arrays.toString(arr_sorted));
     }
+    */
     private static int[] mergeSort(int[] v) {
-    	System.out.println(Arrays.toString(v));
+        System.out.println(Arrays.toString(v));
     	int n = v.length;
     	int mid = n/2;
     	if (n <= 1) {
